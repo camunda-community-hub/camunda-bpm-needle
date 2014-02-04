@@ -1,32 +1,29 @@
 package org.camunda.bpm.engine.test;
 
-import java.util.Date;
-
 import org.camunda.bpm.engine.AuthorizationService;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.ManagementService;
 import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.ProcessEngineDelegate;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.impl.test.TestHelper;
 import org.camunda.bpm.engine.impl.util.ClockUtil;
+import org.camunda.bpm.extension.engine.test.ProcessEngineExternalResource;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
+import java.util.Date;
+
 /**
- * Rewrite of the ActivitiRule since TestWatchman is deprecated for junit>4.9.
- * 
+ * Rewrite of the ProcessEngineRule since TestWatchman is deprecated for junit>4.9.
+ *
  * @author Jan Galinski, Holisticon AG (jan.galinski@holisticon.de)
  */
-public class ProcessEngineTestWatcher extends TestWatcher implements ProcessEngineTestRule {
-
-  /**
-   * Default configuration file name when not used with needle.
-   */
-  private static final String ACTIVITI_CONFIG_RESOURCE = "activiti.cfg.xml";
+public class ProcessEngineTestWatcher extends ChainedTestRule<ProcessEngineExternalResource, TestWatcher> implements ProcessEngineTestRule {
 
   /**
    * Holds the deploymentId after execution of @Deployment. can be used to query
@@ -34,52 +31,39 @@ public class ProcessEngineTestWatcher extends TestWatcher implements ProcessEngi
    */
   protected String deploymentId;
 
-  /**
-   * The standalone process engine.
-   */
-  private final ProcessEngine processEngine;
+  private final TestWatcher innerRule;
 
   /**
    * Use default engine.
-   * 
-   * @see #ProcessEngineTestWatcher(String)
    */
-  public ProcessEngineTestWatcher() {
-    this(ACTIVITI_CONFIG_RESOURCE);
+  public ProcessEngineTestWatcher(ProcessEngineDelegate processEngineDelegate) {
+    super(new ProcessEngineExternalResource(processEngineDelegate));
+
+    this.innerRule = new TestWatcher() {
+      @Override
+      protected void finished(Description description) {
+        TestHelper.annotationDeploymentTearDown(outerRule.getProcessEngine(), deploymentId, description.getTestClass(), description.getMethodName());
+        ClockUtil.reset();
+      }
+
+      @Override
+      protected void starting(Description description) {
+        deploymentId = TestHelper.annotationDeploymentSetUp(outerRule.getProcessEngine(), description.getTestClass(), description.getMethodName());
+      }
+    };
   }
 
-  /**
-   * Create new instance with given configuration resource.
-   * 
-   * @param configurationResource
-   *          name of the configuration file (e.g. activiti.cfg.xml)
-   * @see TestHelper#getProcessEngine(String)
-   * @see #ProcessEngineTestWatcher(ProcessEngine)
-   */
-  public ProcessEngineTestWatcher(final String configurationResource) {
-    this(TestHelper.getProcessEngine(configurationResource));
+
+  public ProcessEngineTestWatcher(ProcessEngine processEngine) {
+    this(new ProcessEngineDelegate(processEngine));
   }
 
-  /**
-   * Creates a new instance with given {@link ProcessEngine}.
-   * 
-   * @param processEngine
-   *          the ProcessEngine instance to use
-   */
-  public ProcessEngineTestWatcher(final ProcessEngine processEngine) {
-    this.processEngine = processEngine;
-  }
 
   @Override
-  protected void starting(final Description description) {
-    deploymentId = TestHelper.annotationDeploymentSetUp(processEngine, description.getTestClass(), description.getMethodName());
+  protected TestWatcher innerRule() {
+    return innerRule;
   }
 
-  @Override
-  protected void finished(final Description description) {
-    TestHelper.annotationDeploymentTearDown(processEngine, deploymentId, description.getTestClass(), description.getMethodName());
-    ClockUtil.reset();
-  }
 
   @Override
   public void setCurrentTime(final Date currentTime) {
@@ -88,7 +72,7 @@ public class ProcessEngineTestWatcher extends TestWatcher implements ProcessEngi
 
   @Override
   public ProcessEngine getProcessEngine() {
-    return processEngine;
+    return outerRule.getProcessEngine();
   }
 
   @Override
@@ -98,52 +82,42 @@ public class ProcessEngineTestWatcher extends TestWatcher implements ProcessEngi
 
   @Override
   public RepositoryService getRepositoryService() {
-    return processEngine.getRepositoryService();
+    return outerRule.getRepositoryService();
   }
 
   @Override
   public RuntimeService getRuntimeService() {
-    return processEngine.getRuntimeService();
+    return outerRule.getRuntimeService();
   }
 
   @Override
   public FormService getFormService() {
-    return processEngine.getFormService();
+    return outerRule.getFormService();
   }
 
   @Override
   public TaskService getTaskService() {
-    return processEngine.getTaskService();
+    return outerRule.getTaskService();
   }
 
   @Override
   public HistoryService getHistoryService() {
-    return processEngine.getHistoryService();
+    return outerRule.getHistoryService();
   }
 
   @Override
   public IdentityService getIdentityService() {
-    return processEngine.getIdentityService();
+    return outerRule.getIdentityService();
   }
 
   @Override
   public ManagementService getManagementService() {
-    return processEngine.getManagementService();
-  }
-
-  @Override
-  public String getName() {
-    return processEngine.getName();
+    return outerRule.getManagementService();
   }
 
   @Override
   public AuthorizationService getAuthorizationService() {
-    return processEngine.getAuthorizationService();
-  }
-
-  @Override
-  public void close() {
-    processEngine.close();
+    return outerRule.getAuthorizationService();
   }
 
 }

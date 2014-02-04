@@ -1,9 +1,9 @@
 package org.camunda.bpm.needle;
 
-import static org.junit.Assert.assertNotNull;
-
 import org.camunda.bpm.engine.test.needle.ProcessEngineNeedleRule;
 import org.junit.Test;
+
+import static org.junit.Assert.assertNotNull;
 
 public class ProcessEngineNeedleRuleTestGetSingleTask {
 

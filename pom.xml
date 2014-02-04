@@ -1,8 +1,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.camunda.bpm.extension</groupId>
+    <groupId>org.camunda.bpm.extension.test</groupId>
     <artifactId>camunda-bpm-needle</artifactId>
     <packaging>jar</packaging>
     <version>0.1-SNAPSHOT</version>
@@ -16,7 +16,7 @@
     <properties>
         <!-- Avoid the message "[WARNING] Using platform encoding (UTF-8 actually) ... also for the failsafe plugin -->
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <camunda-bpm.version>7.0.0-Final</camunda-bpm.version>
+        <camunda-bpm.version>${parent.version}</camunda-bpm.version>
 
         <slf4j.version>1.7.2</slf4j.version>
         <guava.version>14.0.1</guava.version>

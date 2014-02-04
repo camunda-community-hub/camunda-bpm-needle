@@ -1,26 +1,19 @@
-package org.camunda.bpm.needle.supplier;
+package org.camunda.bpm.needle;
 
-import static de.holisticon.toolbox.needle.provider.InjectionProviderInstancesSupplier.Factory.createProvidersFor;
-import static org.camunda.bpm.engine.test.needle.supplier.CamundaInstancesSupplier.camundaInstancesSupplier;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
-
-import javax.inject.Inject;
-
-import org.camunda.bpm.engine.FormService;
-import org.camunda.bpm.engine.HistoryService;
-import org.camunda.bpm.engine.IdentityService;
-import org.camunda.bpm.engine.ManagementService;
-import org.camunda.bpm.engine.ProcessEngineException;
-import org.camunda.bpm.engine.RepositoryService;
-import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.TaskService;
+import de.akquinet.jbosscc.needle.junit.NeedleRule;
+import org.camunda.bpm.engine.*;
+import org.camunda.bpm.engine.test.function.CreateConfigurationFromResource;
+import org.camunda.bpm.engine.test.needle.CamundaInstancesSupplier;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import de.akquinet.jbosscc.needle.junit.NeedleRule;
+import javax.inject.Inject;
+
+import static de.holisticon.toolbox.needle.provider.InjectionProviderInstancesSupplier.Factory.createProvidersFor;
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertThat;
 
 public class CamundaInstancesSupplierTest {
 
@@ -28,7 +21,7 @@ public class CamundaInstancesSupplierTest {
   public final ExpectedException thrown = ExpectedException.none();
 
   @Rule
-  public final NeedleRule needle = new NeedleRule(createProvidersFor(camundaInstancesSupplier()));
+  public final NeedleRule needle = new NeedleRule(createProvidersFor(new CamundaInstancesSupplier(CreateConfigurationFromResource.INSTANCE.buildProcessEngine())));
 
   @Inject
   private ManagementService managementService;

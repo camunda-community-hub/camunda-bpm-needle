@@ -1,12 +1,11 @@
 package org.camunda.bpm.engine.test.function;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
+import com.google.common.base.Function;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.ProcessEngineImpl;
 
-import com.google.common.base.Function;
+import static com.google.common.base.Preconditions.checkArgument;
 
 /**
  * Hides the nasty "getConfiguration from given Engine Hack" in an easy to use
