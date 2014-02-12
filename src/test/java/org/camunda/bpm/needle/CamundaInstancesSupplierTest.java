@@ -1,19 +1,26 @@
 package org.camunda.bpm.needle;
 
-import de.akquinet.jbosscc.needle.junit.NeedleRule;
-import org.camunda.bpm.engine.*;
+import org.camunda.bpm.engine.FormService;
+import org.camunda.bpm.engine.HistoryService;
+import org.camunda.bpm.engine.IdentityService;
+import org.camunda.bpm.engine.ManagementService;
+import org.camunda.bpm.engine.ProcessEngineException;
+import org.camunda.bpm.engine.RepositoryService;
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.test.function.CreateConfigurationFromResource;
 import org.camunda.bpm.engine.test.needle.CamundaInstancesSupplier;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.needle4j.junit.NeedleRule;
 
 import javax.inject.Inject;
 
-import static de.holisticon.toolbox.needle.provider.InjectionProviderInstancesSupplier.Factory.createProvidersFor;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.needle4j.injection.InjectionProviders.providersForInstancesSuppliers;
 
 public class CamundaInstancesSupplierTest {
 
@@ -21,7 +28,7 @@ public class CamundaInstancesSupplierTest {
   public final ExpectedException thrown = ExpectedException.none();
 
   @Rule
-  public final NeedleRule needle = new NeedleRule(createProvidersFor(new CamundaInstancesSupplier(CreateConfigurationFromResource.INSTANCE.buildProcessEngine())));
+  public final NeedleRule needle = new NeedleRule(providersForInstancesSuppliers(new CamundaInstancesSupplier(CreateConfigurationFromResource.INSTANCE.buildProcessEngine())));
 
   @Inject
   private ManagementService managementService;

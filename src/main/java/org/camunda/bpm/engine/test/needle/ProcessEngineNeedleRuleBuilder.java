@@ -1,10 +1,10 @@
 package org.camunda.bpm.engine.test.needle;
 
 import com.google.common.collect.Sets;
-import de.akquinet.jbosscc.needle.injection.InjectionProvider;
 import org.apache.commons.lang3.builder.Builder;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.test.function.CreateConfigurationFromResource;
+import org.needle4j.injection.InjectionProvider;
 
 import java.util.Arrays;
 import java.util.Set;

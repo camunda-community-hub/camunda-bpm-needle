@@ -1,21 +1,27 @@
 package org.camunda.bpm.engine.test.needle;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.Sets;
-import de.akquinet.jbosscc.needle.injection.InjectionProvider;
-import de.holisticon.toolbox.needle.provider.InjectionProviderInstancesSupplier;
-import org.camunda.bpm.engine.*;
+import org.camunda.bpm.engine.AuthorizationService;
+import org.camunda.bpm.engine.FormService;
+import org.camunda.bpm.engine.HistoryService;
+import org.camunda.bpm.engine.IdentityService;
+import org.camunda.bpm.engine.ManagementService;
+import org.camunda.bpm.engine.ProcessEngine;
+import org.camunda.bpm.engine.ProcessEngineConfiguration;
+import org.camunda.bpm.engine.ProcessEngineServiceProvider;
+import org.camunda.bpm.engine.RepositoryService;
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.impl.ProcessEngineImpl;
 import org.camunda.bpm.engine.impl.interceptor.CommandExecutor;
-import org.camunda.bpm.engine.impl.test.TestHelper;
-import org.camunda.bpm.engine.test.cfg.MostUsefulProcessEngineConfiguration;
-import org.camunda.bpm.engine.test.function.CreateConfigurationFromResource;
 import org.camunda.bpm.engine.test.function.GetProcessEngineConfiguration;
+import org.needle4j.injection.InjectionProvider;
+import org.needle4j.injection.InjectionProviderInstancesSupplier;
 
 import java.util.Set;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static de.holisticon.toolbox.needle.provider.DefaultInstanceInjectionProvider.providerFor;
+import static org.needle4j.injection.InjectionProviders.providerForInstance;
 
 /**
  * Supplier for camunda services. Holds processEngine internally and exposes all
@@ -33,17 +39,17 @@ public class CamundaInstancesSupplier implements InjectionProviderInstancesSuppl
     checkArgument(processEngine != null);
     this.processEngine = processEngine;
 
-    providers.add(providerFor(processEngine));
-    providers.add(providerFor(getRepositoryService()));
-    providers.add(providerFor(getRuntimeService()));
-    providers.add(providerFor(getFormService()));
-    providers.add(providerFor(getTaskService()));
-    providers.add(providerFor(getHistoryService()));
-    providers.add(providerFor(getIdentityService()));
-    providers.add(providerFor(getManagementService()));
-    providers.add(providerFor(getAuthorizationService()));
-    providers.add(providerFor(getCommandExecutor()));
-    providers.add(providerFor(getProcessEngineConfiguration()));
+    providers.add(providerForInstance(processEngine));
+    providers.add(providerForInstance(getRepositoryService()));
+    providers.add(providerForInstance(getRuntimeService()));
+    providers.add(providerForInstance(getFormService()));
+    providers.add(providerForInstance(getTaskService()));
+    providers.add(providerForInstance(getHistoryService()));
+    providers.add(providerForInstance(getIdentityService()));
+    providers.add(providerForInstance(getManagementService()));
+    providers.add(providerForInstance(getAuthorizationService()));
+    providers.add(providerForInstance(getCommandExecutor()));
+    providers.add(providerForInstance(getProcessEngineConfiguration()));
   }
 
   @Override

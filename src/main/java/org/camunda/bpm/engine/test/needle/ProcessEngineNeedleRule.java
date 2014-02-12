@@ -1,10 +1,5 @@
 package org.camunda.bpm.engine.test.needle;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Sets;
-import de.akquinet.jbosscc.needle.injection.InjectionProvider;
-import de.akquinet.jbosscc.needle.junit.testrule.NeedleTestRule;
-import de.holisticon.toolbox.needle.NeedleTestRuleBuilder;
 import org.camunda.bpm.engine.AuthorizationService;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.HistoryService;
@@ -15,43 +10,26 @@ import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
-import org.camunda.bpm.engine.history.HistoricActivityInstance;
-import org.camunda.bpm.engine.runtime.Execution;
-import org.camunda.bpm.engine.runtime.Job;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.task.IdentityLink;
-import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.test.ChainedTestRule;
 import org.camunda.bpm.engine.test.ProcessEngineTestRule;
 import org.camunda.bpm.engine.test.ProcessEngineTestWatcher;
 import org.camunda.bpm.engine.test.function.GetProcessEngineConfiguration;
 import org.junit.rules.RuleChain;
+import org.needle4j.injection.InjectionProvider;
+import org.needle4j.injection.InjectionProviderInstancesSupplier;
+import org.needle4j.injection.InjectionProviders;
+import org.needle4j.junit.testrule.NeedleTestRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
 import java.util.Set;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.base.Strings.isNullOrEmpty;
-import static com.google.common.collect.Lists.newArrayList;
-import static java.lang.String.format;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.needle4j.junit.NeedleBuilders.needleMockitoTestRule;
 
 /**
- * Combines the {@link org.camunda.bpm.engine.test.ProcessEngineRule} and the  {@link de.akquinet.jbosscc.needle.junit.NeedleRule}via {@link RuleChain}.
+ * Combines the {@link org.camunda.bpm.engine.test.ProcessEngineRule} and the  {@link org.needle4j.junit.testrule.NeedleTestRule}via {@link RuleChain}.
  * Camunda Services can be injected in test instances and @Deployment-annotated test methods are interpreted.
  *
  * @author Jan Galinski, Holisticon AG (jan.galinski@holisticon.de)
@@ -59,8 +37,8 @@ import static org.junit.Assert.fail;
 public class ProcessEngineNeedleRule extends ChainedTestRule<NeedleTestRule, ProcessEngineTestWatcher> implements ProcessEngineTestRule {
 
   /**
-   * @param testInstance
-   * @return
+   * @param testInstance the test instance to inject to
+   * @return builder to create the rule
    */
   public static ProcessEngineNeedleRuleBuilder fluentNeedleRule(final Object testInstance) {
     return new ProcessEngineNeedleRuleBuilder(testInstance);
@@ -71,32 +49,26 @@ public class ProcessEngineNeedleRule extends ChainedTestRule<NeedleTestRule, Pro
    */
   private final Logger logger = LoggerFactory.getLogger(ProcessEngineNeedleRule.class);
 
-
-  /**
-   * Contains the instance started in test.
-   */
-  @Deprecated
-  private ProcessInstance processInstance;
-
   private final ProcessEngineTestWatcher innerRule;
 
-  ProcessEngineNeedleRule(final Object testInstance, final ProcessEngine processEngine, final Set<InjectionProvider<?>> injectionProviders) {
-    super(NeedleTestRuleBuilder.needleTestRule(testInstance).addSupplier(new CamundaInstancesSupplier(processEngine)) //
-            .addProvider(injectionProviders.toArray(new InjectionProvider<?>[injectionProviders.size()])) //
+  ProcessEngineNeedleRule(final Object testInstance, final ProcessEngine processEngine, final InjectionProviderInstancesSupplier additionalProvidersSupplier) {
+    // @formatter:off
+    super(needleMockitoTestRule(testInstance)
+            .addSupplier(new CamundaInstancesSupplier(processEngine))
+            .addSupplier(additionalProvidersSupplier)
             .build());
-
+    // @formatter:on
     this.innerRule = new ProcessEngineTestWatcher(processEngine);
   }
 
   ProcessEngineNeedleRule(final Object testInstance, final ProcessEngineConfiguration configuration, final Set<InjectionProvider<?>> injectionProviders) {
-    this(testInstance, configuration.buildProcessEngine(), injectionProviders);
+    this(testInstance, configuration.buildProcessEngine(), InjectionProviders.supplierForInjectionProviders(injectionProviders));
   }
 
   @Override
   protected ProcessEngineTestWatcher innerRule() {
     return innerRule;
   }
-
 
   @Override
   public void setCurrentTime(Date currentTime) {
@@ -154,244 +126,6 @@ public class ProcessEngineNeedleRule extends ChainedTestRule<NeedleTestRule, Pro
 
   public DataSource getProcessEngineDataSource() {
     return getProcessEngineConfiguration().getDataSource();
-  }
-
-  /**
-   * Performs a search for active ProcessInstances and fails if any are found.
-   */
-  @Deprecated
-  public void assertNoMoreRunningInstances() {
-    assertThat(getRuntimeService().createProcessInstanceQuery().active().count(), is(0L));
-  }
-
-  /**
-   * Delegates to {@link RuntimeService#startProcessInstanceByKey(String, Map)}.
-   *
-   * @param processDefinitionKey process name as configured in BPMN file
-   * @param variables            map for process start
-   * @return started process instance
-   */
-  @Deprecated
-  public ProcessInstance startProcessInstanceByKey(final String processDefinitionKey, final Map<String, Object> variables) {
-    checkArgument(processDefinitionKey != null, "processDefinitionKey must not be null!");
-
-    if (variables == null) {
-      setProcessInstance(getRuntimeService().startProcessInstanceByKey(processDefinitionKey));
-    } else {
-      setProcessInstance(getRuntimeService().startProcessInstanceByKey(processDefinitionKey, variables));
-    }
-
-    return getProcessInstance();
-  }
-
-  /**
-   * Delegates to {@link RuntimeService#startProcessInstanceByKey(String)}.
-   *
-   * @param processDefinitionKey process name as configured in BPMN file
-   * @return started process instance
-   */
-  @Deprecated
-  public ProcessInstance startProcessInstanceByKey(final String processDefinitionKey) {
-    return startProcessInstanceByKey(processDefinitionKey, null);
-  }
-
-  /**
-   * Deletes all history entries.
-   */
-  @Deprecated
-  public void deleteHistoricInstances() {
-    try {
-      if (processInstance != null) {
-        getHistoryService().deleteHistoricProcessInstance(processInstance.getId());
-      }
-    } catch (final Exception e) {
-      logger.warn("could not delete Historic Process Instance: " + e.getMessage());
-    }
-  }
-
-  @Deprecated
-  public ProcessInstance getProcessInstance() {
-    return processInstance;
-  }
-
-  @Deprecated
-  public void setProcessInstance(final ProcessInstance processInstance) {
-    this.processInstance = processInstance;
-  }
-
-  /**
-   * Logs executionId and startTime of historic instance to debug.
-   *
-   * @param history List of historic activity instances
-   */
-  @Deprecated
-  private static void debugHistory(final List<HistoricActivityInstance> history) {
-    final SimpleDateFormat format = new SimpleDateFormat("ss.SSS");
-    for (final HistoricActivityInstance activityInstance : history) {
-      LoggerFactory.getLogger(ProcessEngineNeedleRule.class).debug(
-              format("[%03d] (%s) %s", Integer.parseInt(activityInstance.getExecutionId()), format.format(activityInstance.getStartTime().getTime()),
-                      activityInstance.getActivityId()));
-    }
-  }
-
-  /**
-   * Checks if all activities belonging to {@link #processInstance} were
-   * executed in the expected order.
-   *
-   * @param activityIds vararg array of activity ids in expected order
-   * @see #assertActivitiesInOrder(List)
-   */
-  @Deprecated
-  public void assertActivitiesInOrder(final String... activityIds) {
-    checkState(processInstance != null);
-    assertActivitiesInOrder(newArrayList(activityIds));
-  }
-
-  /**
-   * Checks if all activities belonging to {@link #processInstance} were
-   * executed in the expected order.
-   *
-   * @param activityIds List of activity ids in expected order
-   */
-  @Deprecated
-  public void assertActivitiesInOrder(final List<String> activityIds) {
-    checkState(processInstance != null);
-
-    // suche alle Einträge für die aktuelle Prozessinstanz
-    final List<HistoricActivityInstance> history = newArrayList(getHistoryService().createHistoricActivityInstanceQuery()
-            .processInstanceId(processInstance.getId()).orderByHistoricActivityInstanceStartTime().asc().orderByHistoricActivityInstanceId().asc()
-            .orderByExecutionId().asc().finished().list().iterator());
-
-    debugHistory(history);
-
-    final ListIterator<HistoricActivityInstance> iterator = history.listIterator();
-    // prüfe ob iterator und übergebene Liste übereinstimmen
-    for (final String activitiId : activityIds) {
-      if (!iterator.hasNext()) {
-        fail("no historic activities found. expected: '" + activitiId + "'");
-      }
-
-      assertThat(iterator.next().getActivityId(), is(activitiId));
-    }
-  }
-
-  /**
-   * Gets all Candidate groups from given Task.
-   *
-   * @param task the task instance to be examinated.
-   * @return Set of candidate groups.
-   */
-  @Deprecated
-  public Set<String> getCandidateGroups(final Task task) {
-    checkArgument(task != null, "task must not be null!");
-    final List<IdentityLink> identityLinksForTask = getTaskService().getIdentityLinksForTask(task.getId());
-    final Set<String> groups = Sets.newHashSet();
-    for (final IdentityLink identityLink : identityLinksForTask) {
-      final String group = identityLink.getGroupId();
-      if (group != null) {
-        groups.add(group);
-      }
-    }
-    return groups;
-  }
-
-  /**
-   * Get executionId waiting in activity with given id. Attention: this does not
-   * work when multiple executions exist (in loops, parallel processes, ...).
-   *
-   * @param activityId - name of the activity
-   * @return execution id waiting in activity
-   */
-  @Deprecated
-  public String getExecutionId(final String activityId) {
-    return getRuntimeService().createExecutionQuery().processInstanceId(processInstance.getId()).activityId(activityId).singleResult().getId();
-  }
-
-  /**
-   * Checks given user task for various expected values.
-   *
-   * @param task                    the current user task
-   * @param name                    expected task name
-   * @param description             expected task description
-   * @param priority                expected task priortiy
-   * @param expectedCandidateGroups vararg array of expected candidate groups (must all match)
-   */
-  @Deprecated
-  public void assertUserTask(final Task task, final String name, final String description, final int priority, final String... expectedCandidateGroups) {
-    assertThat(task.getName(), equalTo(name));
-    assertThat(task.getDescription(), is(description));
-    assertThat(task.getPriority(), is(priority));
-    final Set<String> candidateGroups = getCandidateGroups(task);
-    assertThat(candidateGroups, hasSize(expectedCandidateGroups.length));
-    // assertThat(candidateGroups, hasItems(expectedCandidateGroups));
-  }
-
-  /**
-   * Get single current task. Will fail when none or more than one task is
-   * active.
-   *
-   * @return current task
-   */
-  @Deprecated
-  public Task getTask() {
-    final Task singleResult = getTaskService().createTaskQuery().singleResult();
-    checkState(singleResult != null, "getTask() expects exactly 1 active task, found none!");
-
-    return singleResult;
-  }
-
-  /**
-   * Completes the current task.
-   *
-   * @see #getTask()
-   */
-  @Deprecated
-  public void completeTask() {
-    getTaskService().complete(getTask().getId());
-  }
-
-  /**
-   * Completes the current task with variables.
-   *
-   * @param variables stored in process payload
-   */
-  @Deprecated
-  public void completeTask(final Map<String, Object> variables) {
-    getTaskService().complete(getTask().getId(), variables);
-  }
-
-  /**
-   * Get Variables for given execution.
-   *
-   * @param execution the current execution
-   * @return Immutable Variable Map for this execution
-   */
-  @Deprecated
-  public Map<String, Object> getVariables(final Execution execution) {
-    checkArgument(execution != null, "execution must not be null!");
-    return ImmutableMap.copyOf(getRuntimeService().getVariables(execution.getId()));
-  }
-
-  /**
-   * Executes async job. Does not work if more then one job is active!
-   */
-  @Deprecated
-  public void executeAsyncJob() {
-    final Job job = getManagementService().createJobQuery().singleResult();
-    assertNotNull("no active job found", job);
-    executeAsyncJob(job.getId());
-  }
-
-  /**
-   * Execute given job.
-   *
-   * @param jobId the job id (must not be blank)
-   */
-  @Deprecated
-  public void executeAsyncJob(final String jobId) {
-    assertFalse(isNullOrEmpty(jobId));
-    getManagementService().setJobRetries(jobId, 0);
-    getManagementService().executeJob(jobId);
   }
 
   @Override

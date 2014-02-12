@@ -23,7 +23,8 @@ public abstract class ChainedTestRule<O extends TestRule, I extends TestRule> im
     };
   }
 
-  protected final O outerRule;
+  protected O outerRule;
+
 
   public ChainedTestRule(final O outerRule) {
     this.outerRule = outerRule;

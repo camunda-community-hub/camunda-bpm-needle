@@ -1,7 +1,5 @@
 package org.camunda.bpm.needle.example;
 
-import de.akquinet.jbosscc.needle.annotation.Mock;
-import de.akquinet.jbosscc.needle.annotation.ObjectUnderTest;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -13,6 +11,9 @@ import org.camunda.bpm.engine.test.needle.ProcessEngineNeedleRule;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
+import org.mockito.Spy;
+import org.needle4j.annotation.Mock;
+import org.needle4j.annotation.ObjectUnderTest;
 
 import javax.inject.Inject;
 
@@ -26,7 +27,8 @@ public class TestProcessTest {
   @Rule
   public final ProcessEngineNeedleRule processEngineNeedleRule = ProcessEngineNeedleRule.fluentNeedleRule(this).build();
 
-  @ObjectUnderTest(implementation = TestProcessStarterBean.class)
+
+ @ObjectUnderTest(implementation = TestProcessStarterBean.class)
   public TestProcessStarter testProcessStarter;
 
   @Mock
