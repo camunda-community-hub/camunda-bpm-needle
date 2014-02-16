@@ -1,44 +1,113 @@
-# _Name of Project_
+# camunda-bpm-needle
 
-_Short description of project_
+[Needle4j](http://www.needle4j.org) (f.k.a. needle) is a framework to ease DI testing. It allows writing very effective, boilerplate free Junit or TestNG test by providing mocks for every Injection point.
 
-![Screenshot or code snippet](http://placehold.it/550x350&text=Image%20or%20code%20snippet%20if%20applicable)
+This is how a test written with needle looks like. Check out the source code for the full [example](https://github.com/camunda/camunda-bpm-needle/tree/master/src/test/java/org/camunda/bpm/needle/example).
+
+```java 
+ public static final String USER_ID = "foo";
+
+  @Rule
+  public final NeedleRule needleRule = needleRule().build();
+
+  @ObjectUnderTest(implementation = TestProcessStarterBean.class)
+  private TestProcessStarter testProcessStarter;
+
+  @Mock
+  private RuntimeService runtimeService;
+
+  @Test
+  public void should_start_process_with_userId() {
+    final String businessKey = UUID.randomUUID().toString();
+
+    testProcessStarter.startProcessWithUser(USER_ID, businessKey);
+
+    verify(runtimeService).startProcessInstanceByKey(TestProcessStarterBean.PROCESS_KEY,
+            businessKey, variablesStartedByUser(USER_ID));
+  }
+```
+
+Now, this is the bean test. Now you want to write the process test. Since you have special requirements how the process is started and you already tested the behavior, instead of rewriting the process start manually, why not reuse the process tarter.
+
+This is where camunda-bpm-needle gets useful. Instead of using mocks (like in the previous sample), the ProcessEngineNeedleRule can inject the in memory process engine services into your test case and use your beans.
+And since you are still working with the in memory engine, you can easily use mocks for the parts of the process you do not want (or need) to test here.
+
+```java
+
+  @Rule
+  public final ProcessEngineNeedleRule processEngineNeedleRule = ProcessEngineNeedleRule.fluentNeedleRule(this).build();
+
+  @ObjectUnderTest(implementation = TestProcessStarterBean.class)
+  public TestProcessStarter testProcessStarter;
+
+  @Mock
+  private JavaDelegate serviceTaskMock;
+
+  @Inject
+  private TaskService taskService;
+
+  @Inject
+  private RuntimeService runtimeService;
+
+  @Test
+  @Deployment(resources = "test-process.bpmn")
+  public void should_deploy_and_start_process_via_starter_bean() {
+    Mocks.register("serviceTask", serviceTaskMock);
+
+    final ProcessInstance processInstance = testProcessStarter.startProcessWithUser("foo", UUID.randomUUID().toString());
+
+    Assert.assertNotNull(processEngineNeedleRule.getDeploymentId());
+
+    Task task = taskService.createTaskQuery().active().singleResult();
+    Assert.assertNotNull(task);
+
+    taskService.complete(task.getId());
+
+    Assert.assertNull(runtimeService.createProcessInstanceQuery().active().singleResult());
+  }
+  
+```
+
 
 
 ## Get started
 
-_A quick description how your project can be used, including where the relevant resources can be obtained from.
-Put into another file if too big._
+Just include camunda-bpm-needle in the test scope of your project:
+
+```xml
+<dependency>
+  <groupId>org.camunda.extension.test</groupId>
+  <artifactId>camunda-bpm-needle</artifactId>
+  <scope>test</scope>
+  <version>0.7-SNAPSHOT</version>
+</dependency>
+
+```
+
+and start using NeedleRule or ProcessEngineNeedleRule in your tests. Have a look at the examples in src/test/java. 
 
 
 ## Resources
 
-* [Issue Tracker](link-to-issue-tracker) _use github unless you got your own_
+* [Issue Tracker](https://github.com/camunda/camunda-bpm-needle/issues)
+* [Contributing](https://github.com/camunda/camunda-bpm-needle/blob/master/CONTRIBUTING.md) 
+
+TODO:
 * [Roadmap](link-to-issue-tracker-filter) _if in terms of tagged issues_
 * [Changelog](link-to-changelog) _lets users track progress on what has been happening_
 * [Download](link-to-downloadable-archive) _if downloadable_
-* [Contributing](link-to-contribute-guide) _if desired, best to put it into a CONTRIBUTE.md file_
 
 
 ## Roadmap
 
-_specify a short list of things that yet need to be done (unless you organize it elsewhere)_
-
-**todo**
-- add feature B
-- integrate with technology X
-
-**done**
-- add feature A
-
+TODO
 
 ## Maintainer
 
-_Your Name with link to Github profile or email_
+camunda-bpm-needle is maintained by [Jan Galinski](https://github.com/jangalinski) and [Simon Zambrovski](https://github.com/zambrovski), both [Holisticon AG](http://www.holisticon.de).
 
 
 ## License
 
 Apache License, Version 2.0
 
-_(Choose among Apache License, Version 2.0 or The MIT License. Update file LICENSE as well.)_
