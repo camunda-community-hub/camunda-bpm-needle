@@ -1,27 +1,28 @@
 package org.camunda.bpm.needle.example;
 
-import com.google.common.collect.Maps;
+
+
 import org.camunda.bpm.engine.RuntimeService;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.needle4j.annotation.Mock;
 import org.needle4j.annotation.ObjectUnderTest;
 import org.needle4j.junit.NeedleBuilders;
 import org.needle4j.junit.NeedleRule;
 
-import javax.inject.Inject;
-import java.util.Map;
+import java.util.UUID;
 
+import static org.camunda.bpm.needle.example.TestProcessStarterBean.variablesStartedByUser;
 import static org.mockito.Mockito.verify;
+import static org.needle4j.junit.NeedleBuilders.needleRule;
 
 public class TestProcessStarterTest {
 
-  @Rule
-  public final NeedleRule needleRule = NeedleBuilders.needleRule().build();
+  public static final String USER_ID = "foo";
 
-  @Spy
+  @Rule
+  public final NeedleRule needleRule = needleRule().build();
+
   @ObjectUnderTest(implementation = TestProcessStarterBean.class)
   private TestProcessStarter testProcessStarter;
 
@@ -30,15 +31,12 @@ public class TestProcessStarterTest {
 
   @Test
   public void should_start_process_with_userId() {
+    final String businessKey = UUID.randomUUID().toString();
 
-    testProcessStarter.startProcessWithUser("foo");
+    testProcessStarter.startProcessWithUser(USER_ID, businessKey);
 
-    Map<String, Object> variables = Maps.newHashMap();
-    variables.put(TestProcessStarter.VARIABLE_STARTED_BY, "foo");
-
-    verify(runtimeService).startProcessInstanceByKey("test-process", variables);
-    verify(testProcessStarter).startProcessWithUser("foo");
-
+    verify(runtimeService).startProcessInstanceByKey(TestProcessStarterBean.PROCESS_KEY,
+            businessKey, variablesStartedByUser(USER_ID));
   }
 
 }

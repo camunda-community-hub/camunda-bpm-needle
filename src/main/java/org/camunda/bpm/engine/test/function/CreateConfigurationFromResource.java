@@ -14,38 +14,40 @@ import java.io.FileNotFoundException;
 import static com.google.common.base.Optional.fromNullable;
 
 /**
- * Created by jangalinski on 02.02.14.
+ * Creates a new ProcessEngineConfiguration based on camunda.cfg.xml. Falls back to activiti.cfg.xml for compatibility reasons.
+ * If no cfg.xml files can be found, a MostUsefulProcessEngineConfiguration is created.
  *
  * @author Jan Galinski, Holisticon AG
  */
 public enum CreateConfigurationFromResource implements Supplier<ProcessEngineConfiguration> {
   INSTANCE;
 
-  public static String DEFAULT_CFG_XML_NAME = "camunda.cfg.xml";
-  public static String COMPAT_CFG_XML_NAME = "activiti.cfg.xml";
 
+  /**
+   *
+   */
+  private static class ConfigurationSupplier implements  Supplier<ProcessEngineConfiguration> {
 
-  private final Supplier<ProcessEngineConfiguration> camundaCfgXmlSupplier = new Supplier<ProcessEngineConfiguration>() {
+    private final String cfgXmlFilename;
+
+    private ConfigurationSupplier(String cfgXmlFilename) {
+      this.cfgXmlFilename = cfgXmlFilename;
+    }
+
     @Override
     public ProcessEngineConfiguration get() {
       try {
-        return ProcessEngineConfiguration.createProcessEngineConfigurationFromResource(DEFAULT_CFG_XML_NAME);
+        return ProcessEngineConfiguration.createProcessEngineConfigurationFromResource(cfgXmlFilename);
       } catch (Exception e) {
         return null;
       }
     }
-  };
+  }
 
-  private final Supplier<ProcessEngineConfiguration> activitiCfgXmlSupplier = new Supplier<ProcessEngineConfiguration>() {
-    @Override
-    public ProcessEngineConfiguration get() {
-      try {
-        return ProcessEngineConfiguration.createProcessEngineConfigurationFromResource(COMPAT_CFG_XML_NAME);
-      } catch (Exception e) {
-        return null;
-      }
-    }
-  };
+
+  private final Supplier<ProcessEngineConfiguration> camundaCfgXmlSupplier = new ConfigurationSupplier("camunda.cfg.xml");
+
+  private final Supplier<ProcessEngineConfiguration> activitiCfgXmlSupplier = new ConfigurationSupplier("activiti.cfg.xml");
 
   @Override
   public ProcessEngineConfiguration get() {

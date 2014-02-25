@@ -11,11 +11,11 @@ import org.camunda.bpm.engine.test.needle.ProcessEngineNeedleRule;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.Spy;
 import org.needle4j.annotation.Mock;
 import org.needle4j.annotation.ObjectUnderTest;
 
 import javax.inject.Inject;
+import java.util.UUID;
 
 /**
  * Created by jangalinski on 04.02.14.
@@ -27,8 +27,7 @@ public class TestProcessTest {
   @Rule
   public final ProcessEngineNeedleRule processEngineNeedleRule = ProcessEngineNeedleRule.fluentNeedleRule(this).build();
 
-
- @ObjectUnderTest(implementation = TestProcessStarterBean.class)
+  @ObjectUnderTest(implementation = TestProcessStarterBean.class)
   public TestProcessStarter testProcessStarter;
 
   @Mock
@@ -44,7 +43,8 @@ public class TestProcessTest {
   @Deployment(resources = "test-process.bpmn")
   public void should_deploy_and_start_process_via_starter_bean() {
     Mocks.register("serviceTask", serviceTaskMock);
-    final ProcessInstance processInstance = testProcessStarter.startProcessWithUser("foo");
+
+    final ProcessInstance processInstance = testProcessStarter.startProcessWithUser("foo", UUID.randomUUID().toString());
 
     Assert.assertNotNull(processEngineNeedleRule.getDeploymentId());
 
