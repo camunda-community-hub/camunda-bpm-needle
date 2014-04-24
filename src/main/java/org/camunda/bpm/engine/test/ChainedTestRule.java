@@ -6,7 +6,7 @@ import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
 
 /**
- * Created by jangalinski on 03.02.14.
+ * Helper for chaining TestRules.
  * 
  * @author Jan Galinski, Holisticon AG
  */

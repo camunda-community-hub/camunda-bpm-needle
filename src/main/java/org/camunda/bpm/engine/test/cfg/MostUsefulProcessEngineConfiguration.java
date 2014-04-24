@@ -5,21 +5,22 @@ import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.bpmn.parser.BpmnParseListener;
 import org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.jobexecutor.JobHandler;
-import org.camunda.bpm.engine.test.ProcessEngineTestRule;
-import org.camunda.bpm.engine.test.ProcessEngineTestWatcher;
 import org.camunda.bpm.engine.test.mock.MockExpressionManager;
 
 import java.util.ArrayList;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+/**
+ * Configuration that makes the standard camunda.cfg.xml obsolete by setting the history, schema and job-executor settings.
+ */
 public class MostUsefulProcessEngineConfiguration extends StandaloneInMemProcessEngineConfiguration {
 
   public static MostUsefulProcessEngineConfiguration mostUsefulProcessEngineConfiguration() {
     return new MostUsefulProcessEngineConfiguration();
   }
 
-  public static final Supplier<ProcessEngineConfiguration> SUPPLIER = new Supplier<ProcessEngineConfiguration>(){
+  public static final Supplier<ProcessEngineConfiguration> SUPPLIER = new Supplier<ProcessEngineConfiguration>() {
     @Override
     public ProcessEngineConfiguration get() {
       return mostUsefulProcessEngineConfiguration();

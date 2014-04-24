@@ -2,7 +2,7 @@ package org.camunda.bpm.needle.example;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
@@ -12,7 +12,6 @@ import java.io.Serializable;
 import java.util.Map;
 
 /**
- * Created by jangalinski on 04.02.14.
  *
  * @author Jan Galinski, Holisticon AG
  */

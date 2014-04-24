@@ -13,7 +13,7 @@ import java.util.Date;
 public interface ProcessEngineTestRule extends TestRule, ProcessEngineServiceProvider {
 
   /**
-   * Sets current toime of in memory engine. Use to test timers etc.
+   * Sets current time of in memory engine. Use to test timers etc.
    *
    * @param currentTime time to set
    */
