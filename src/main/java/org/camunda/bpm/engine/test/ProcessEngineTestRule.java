@@ -3,14 +3,13 @@ package org.camunda.bpm.engine.test;
 import java.util.Date;
 
 import org.camunda.bpm.engine.ProcessEngine;
-import org.camunda.bpm.engine.ProcessEngineServiceProvider;
+import org.camunda.bpm.engine.ProcessEngineServices;
 import org.junit.rules.TestRule;
 
 /**
- * Combined interface of {@link org.camunda.bpm.engine.ProcessEngineServiceProvider}
- * and {@link TestRule}.
+ * Combined interface of {@link org.camunda.bpm.engine.ProcessEngineServices} and {@link TestRule}.
  */
-public interface ProcessEngineTestRule extends TestRule, ProcessEngineServiceProvider {
+public interface ProcessEngineTestRule extends TestRule, ProcessEngineServices {
 
   /**
    * Sets current time of in memory engine. Use to test timers etc.

@@ -12,7 +12,7 @@ import org.camunda.bpm.engine.IdentityService;
 import org.camunda.bpm.engine.ManagementService;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
-import org.camunda.bpm.engine.ProcessEngineServiceProvider;
+import org.camunda.bpm.engine.ProcessEngineServices;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
@@ -27,10 +27,10 @@ import com.google.common.collect.Sets;
 /**
  * Supplier for camunda services. Holds processEngine internally and exposes all
  * services via {@link InjectionProvider}.
- *
+ * 
  * @author Jan Galinski, Holisticon AG
  */
-public class CamundaInstancesSupplier implements InjectionProviderInstancesSupplier, ProcessEngineServiceProvider {
+public class CamundaInstancesSupplier implements InjectionProviderInstancesSupplier, ProcessEngineServices {
 
   private final Set<InjectionProvider<?>> providers = Sets.newHashSet();
 
@@ -93,6 +93,14 @@ public class CamundaInstancesSupplier implements InjectionProviderInstancesSuppl
     return processEngine.getManagementService();
   }
 
+  @Override
+  public AuthorizationService getAuthorizationService() {
+    return processEngine.getAuthorizationService();
+  }
+
+  /**
+   * @return the current configuration
+   */
   public ProcessEngineConfiguration getProcessEngineConfiguration() {
     return GetProcessEngineConfiguration.INSTANCE.apply(processEngine);
   }
@@ -104,11 +112,9 @@ public class CamundaInstancesSupplier implements InjectionProviderInstancesSuppl
     return processEngine;
   }
 
-  @Override
-  public AuthorizationService getAuthorizationService() {
-    return processEngine.getAuthorizationService();
-  }
-
+  /**
+   * @return a command executor for the processEngine
+   */
   public CommandExecutor getCommandExecutor() {
     return ((ProcessEngineImpl) getProcessEngine()).getProcessEngineConfiguration().getCommandExecutorSchemaOperations();
   }
