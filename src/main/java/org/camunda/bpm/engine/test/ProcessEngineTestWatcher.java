@@ -19,8 +19,9 @@ import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
 /**
- * Rewrite of the ProcessEngineRule since TestWatchman is deprecated for junit>4.9.
- *
+ * Rewrite of the ProcessEngineRule since TestWatchman is deprecated for
+ * junit>4.9.
+ * 
  * @author Jan Galinski, Holisticon AG (jan.galinski@holisticon.de)
  */
 public class ProcessEngineTestWatcher extends ChainedTestRule<ProcessEngineExternalResource, TestWatcher> implements ProcessEngineTestRule {
@@ -31,6 +32,9 @@ public class ProcessEngineTestWatcher extends ChainedTestRule<ProcessEngineExter
    */
   protected String deploymentId;
 
+  /**
+   * Like the old ProcessEngineRule ...
+   */
   private final TestWatcher innerRule;
 
   /**
@@ -53,17 +57,20 @@ public class ProcessEngineTestWatcher extends ChainedTestRule<ProcessEngineExter
     };
   }
 
-
-  public ProcessEngineTestWatcher(ProcessEngine processEngine) {
+  /**
+   * Create a new rule instance for given process engine.
+   * 
+   * @param processEngine
+   *          the process engine
+   */
+  public ProcessEngineTestWatcher(final ProcessEngine processEngine) {
     this(new ProcessEngineDelegate(processEngine));
   }
-
 
   @Override
   protected TestWatcher innerRule() {
     return innerRule;
   }
-
 
   @Override
   public void setCurrentTime(final Date currentTime) {
