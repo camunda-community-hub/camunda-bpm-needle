@@ -1,15 +1,17 @@
 package org.camunda.bpm.needle.example;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
+import java.io.Serializable;
+import java.util.Map;
+
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import org.apache.commons.lang3.StringUtils;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 
-import javax.inject.Inject;
-import javax.inject.Named;
-import java.io.Serializable;
-import java.util.Map;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
 
 /**
  *

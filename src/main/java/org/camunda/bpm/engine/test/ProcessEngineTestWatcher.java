@@ -1,5 +1,7 @@
 package org.camunda.bpm.engine.test;
 
+import java.util.Date;
+
 import org.camunda.bpm.engine.AuthorizationService;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.HistoryService;
@@ -15,8 +17,6 @@ import org.camunda.bpm.engine.impl.util.ClockUtil;
 import org.camunda.bpm.extension.engine.test.ProcessEngineExternalResource;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
-
-import java.util.Date;
 
 /**
  * Rewrite of the ProcessEngineRule since TestWatchman is deprecated for junit>4.9.

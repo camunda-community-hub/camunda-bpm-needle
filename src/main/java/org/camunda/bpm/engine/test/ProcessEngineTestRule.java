@@ -1,10 +1,10 @@
 package org.camunda.bpm.engine.test;
 
+import java.util.Date;
+
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineServiceProvider;
 import org.junit.rules.TestRule;
-
-import java.util.Date;
 
 /**
  * Combined interface of {@link org.camunda.bpm.engine.ProcessEngineServiceProvider}

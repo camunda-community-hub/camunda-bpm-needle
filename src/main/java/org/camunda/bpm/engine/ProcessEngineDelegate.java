@@ -1,17 +1,17 @@
 package org.camunda.bpm.engine;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import org.camunda.bpm.engine.test.function.GetProcessEngineConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Holds a process engine delegate and provides process engine services.
  *
  * @author Jan Galinski, Holisticon AG
  */
-public class ProcessEngineDelegate implements ProcessEngineServiceProvider {
+public class ProcessEngineDelegate implements ProcessEngineServices {
 
   private final Logger logger = LoggerFactory.getLogger(getClass());
 

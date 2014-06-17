@@ -1,17 +1,11 @@
 package org.camunda.bpm.engine.test.function;
 
-import com.google.common.base.Function;
-import com.google.common.base.Optional;
-import com.google.common.base.Supplier;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.ProcessEngineDelegate;
 import org.camunda.bpm.engine.test.cfg.MostUsefulProcessEngineConfiguration;
 
-import javax.swing.text.html.Option;
-import java.io.FileNotFoundException;
-
-import static com.google.common.base.Optional.fromNullable;
+import com.google.common.base.Supplier;
 
 /**
  * Creates a new ProcessEngineConfiguration based on camunda.cfg.xml. Falls back to activiti.cfg.xml for compatibility reasons.

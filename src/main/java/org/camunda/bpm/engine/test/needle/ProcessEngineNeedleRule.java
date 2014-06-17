@@ -1,5 +1,12 @@
 package org.camunda.bpm.engine.test.needle;
 
+import static org.needle4j.junit.NeedleBuilders.needleMockitoTestRule;
+
+import java.util.Date;
+import java.util.Set;
+
+import javax.sql.DataSource;
+
 import org.camunda.bpm.engine.AuthorizationService;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.HistoryService;
@@ -21,12 +28,6 @@ import org.needle4j.injection.InjectionProviders;
 import org.needle4j.junit.testrule.NeedleTestRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import javax.sql.DataSource;
-import java.util.Date;
-import java.util.Set;
-
-import static org.needle4j.junit.NeedleBuilders.needleMockitoTestRule;
 
 /**
  * Combines the {@link org.camunda.bpm.engine.test.ProcessEngineRule} and the  {@link org.needle4j.junit.testrule.NeedleTestRule}via {@link RuleChain}.

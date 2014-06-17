@@ -1,5 +1,12 @@
 package org.camunda.bpm.needle;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertThat;
+import static org.needle4j.injection.InjectionProviders.providersForInstancesSuppliers;
+
+import javax.inject.Inject;
+
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.IdentityService;
@@ -14,13 +21,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.needle4j.junit.NeedleRule;
-
-import javax.inject.Inject;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
-import static org.needle4j.injection.InjectionProviders.providersForInstancesSuppliers;
 
 public class CamundaInstancesSupplierTest {
 

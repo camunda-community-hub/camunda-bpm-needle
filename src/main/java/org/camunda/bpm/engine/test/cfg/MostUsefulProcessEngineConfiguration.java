@@ -1,15 +1,16 @@
 package org.camunda.bpm.engine.test.cfg;
 
-import com.google.common.base.Supplier;
+import static com.google.common.base.Preconditions.checkArgument;
+
+import java.util.ArrayList;
+
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.bpmn.parser.BpmnParseListener;
 import org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration;
 import org.camunda.bpm.engine.impl.jobexecutor.JobHandler;
 import org.camunda.bpm.engine.test.mock.MockExpressionManager;
 
-import java.util.ArrayList;
-
-import static com.google.common.base.Preconditions.checkArgument;
+import com.google.common.base.Supplier;
 
 /**
  * Configuration that makes the standard camunda.cfg.xml obsolete by setting the history, schema and job-executor settings.

@@ -8,7 +8,7 @@ import org.camunda.bpm.engine.ManagementService;
 import org.camunda.bpm.engine.ProcessEngine;
 import org.camunda.bpm.engine.ProcessEngineConfiguration;
 import org.camunda.bpm.engine.ProcessEngineDelegate;
-import org.camunda.bpm.engine.ProcessEngineServiceProvider;
+import org.camunda.bpm.engine.ProcessEngineServices;
 import org.camunda.bpm.engine.RepositoryService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
@@ -24,7 +24,7 @@ import org.junit.rules.ExternalResource;
  *   <li><b>Delegate</b> processEngine is initialized externally and just decorated by the resource. Useful when chaining rules.</li>
  * </ol>
  */
-public class ProcessEngineExternalResource extends ExternalResource implements ProcessEngineServiceProvider {
+public class ProcessEngineExternalResource extends ExternalResource implements ProcessEngineServices {
 
   protected final ProcessEngineDelegate delegate;
 

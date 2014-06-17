@@ -1,6 +1,10 @@
 package org.camunda.bpm.engine.test.needle;
 
-import com.google.common.collect.Sets;
+import static com.google.common.base.Preconditions.checkArgument;
+import static org.needle4j.injection.InjectionProviders.providerForInstance;
+
+import java.util.Set;
+
 import org.camunda.bpm.engine.AuthorizationService;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.HistoryService;
@@ -18,10 +22,7 @@ import org.camunda.bpm.engine.test.function.GetProcessEngineConfiguration;
 import org.needle4j.injection.InjectionProvider;
 import org.needle4j.injection.InjectionProviderInstancesSupplier;
 
-import java.util.Set;
-
-import static com.google.common.base.Preconditions.checkArgument;
-import static org.needle4j.injection.InjectionProviders.providerForInstance;
+import com.google.common.collect.Sets;
 
 /**
  * Supplier for camunda services. Holds processEngine internally and exposes all

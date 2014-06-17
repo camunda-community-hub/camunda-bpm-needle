@@ -1,5 +1,9 @@
 package org.camunda.bpm.needle.example;
 
+import java.util.UUID;
+
+import javax.inject.Inject;
+
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
@@ -13,9 +17,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.needle4j.annotation.Mock;
 import org.needle4j.annotation.ObjectUnderTest;
-
-import javax.inject.Inject;
-import java.util.UUID;
 
 /**
  * Created by jangalinski on 04.02.14.

@@ -1,20 +1,18 @@
 package org.camunda.bpm.needle.example;
 
 
+import static org.camunda.bpm.needle.example.TestProcessStarterBean.variablesStartedByUser;
+import static org.mockito.Mockito.verify;
+import static org.needle4j.junit.NeedleBuilders.needleRule;
+
+import java.util.UUID;
 
 import org.camunda.bpm.engine.RuntimeService;
 import org.junit.Rule;
 import org.junit.Test;
 import org.needle4j.annotation.Mock;
 import org.needle4j.annotation.ObjectUnderTest;
-import org.needle4j.junit.NeedleBuilders;
 import org.needle4j.junit.NeedleRule;
-
-import java.util.UUID;
-
-import static org.camunda.bpm.needle.example.TestProcessStarterBean.variablesStartedByUser;
-import static org.mockito.Mockito.verify;
-import static org.needle4j.junit.NeedleBuilders.needleRule;
 
 public class TestProcessStarterTest {
 
