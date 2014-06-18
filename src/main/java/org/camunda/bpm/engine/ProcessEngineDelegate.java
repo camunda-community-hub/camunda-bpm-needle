@@ -45,13 +45,13 @@ public class ProcessEngineDelegate implements ProcessEngineServices {
     throw new IllegalArgumentException("either processEngine or processEngineConfiguration must be provided for creation!");
   }
 
-  public void initProcessEngine() {
+  public ProcessEngine initProcessEngine() {
     if (isInitialized()) {
       logger.info("process engine is already initialized, skipping creation.");
-      return;
+        return null;
     }
 
-    processEngine = processEngineConfiguration.buildProcessEngine();
+    return processEngine = processEngineConfiguration.buildProcessEngine();
   }
 
   public void closeProcessEngine() {
