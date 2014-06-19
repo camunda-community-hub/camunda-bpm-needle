@@ -1,4 +1,4 @@
-package org.camunda.bpm.engine.test.needle;
+package org.camunda.bpm.extension.needle;
 
 import static com.google.common.base.Preconditions.checkArgument;
 

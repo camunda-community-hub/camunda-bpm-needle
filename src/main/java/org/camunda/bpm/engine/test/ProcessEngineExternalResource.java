@@ -1,4 +1,4 @@
-package org.camunda.bpm.extension.engine.test;
+package org.camunda.bpm.engine.test;
 
 import org.camunda.bpm.engine.AuthorizationService;
 import org.camunda.bpm.engine.FormService;

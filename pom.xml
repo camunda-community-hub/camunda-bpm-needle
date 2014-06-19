@@ -2,7 +2,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.camunda.bpm.extension.test</groupId>
+    <groupId>org.camunda.bpm.extension</groupId>
     <artifactId>camunda-bpm-needle</artifactId>
     <packaging>jar</packaging>
     <version>1.0-SNAPSHOT</version>
@@ -15,14 +15,13 @@
     </parent>
 
     <properties>
-        <!-- Avoid the message "[WARNING] Using platform encoding (UTF-8 
-            actually) ... also for the failsafe plugin -->
+        <!-- Avoid the message "[WARNING] Using platform encoding (UTF-8 actually) ... also for the failsafe plugin -->
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <camunda.version>7.1.0-Final</camunda.version>
         <needle4j.version>2.3</needle4j.version>
         <slf4j.version>1.7.2</slf4j.version>
         <guava.version>14.0.1</guava.version>
-        <camunda.version>7.1.0-Final</camunda.version>
         <commons-lang3.version>3.1</commons-lang3.version>
 
         <!-- test tools -->
@@ -118,47 +117,39 @@
         </dependency>
     </dependencies>
 
-    <repositories>
-        <repository>
-            <id>camunda-bpm-nexus</id>
-            <name>camunda-bpm-nexus</name>
-            <url>https://app.camunda.com/nexus/content/groups/public</url>
-        </repository>
-        <repository>
-            <id>jboss-public-repository</id>
-            <name>JBoss Repository</name>
-            <url>http://repository.jboss.org/nexus/content/groups/public</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>sonatype-nexus-snapshots</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-    </repositories>
-
     <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
-                </configuration>
-            </plugin>
-        </plugins>
+        <defaultGoal>clean install</defaultGoal>
     </build>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <scm>
+        <connection>scm:git:git@github.com:camunda/camunda-bpm-needle.git</connection>
+        <url>scm:git:git@github.com:camunda/camunda-bpm-needle.git</url>
+        <developerConnection>scm:git:git@github.com:camunda/camunda-bpm-needle.git</developerConnection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <!-- repositories used for distribution of releases and snapshots, DO NOT CHANGE -->
+    <distributionManagement>
+        <repository>
+            <id>camunda-nexus</id>
+            <name>camunda bpm community extensions</name>
+            <url>https://app.camunda.com/nexus/content/repositories/camunda-bpm-community-extensions</url>
+        </repository>
+        <snapshotRepository>
+            <id>camunda-nexus</id>
+            <name>camunda bpm community extensions snapshots</name>
+            <url>https://app.camunda.com/nexus/content/repositories/camunda-bpm-community-extensions-snapshots</url>
+            <!-- for maven 2 compatibility -->
+            <uniqueVersion>true</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
     <developers>
         <developer>
             <name>Jan Galinski</name>

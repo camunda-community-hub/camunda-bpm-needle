@@ -11,18 +11,13 @@ import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.mock.Mocks;
-import org.camunda.bpm.engine.test.needle.ProcessEngineNeedleRule;
+import org.camunda.bpm.extension.needle.ProcessEngineNeedleRule;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.needle4j.annotation.Mock;
 import org.needle4j.annotation.ObjectUnderTest;
 
-/**
- * Created by jangalinski on 04.02.14.
- *
- * @author Jan Galinski, Holisticon AG
- */
 public class TestProcessTest {
 
   @Rule

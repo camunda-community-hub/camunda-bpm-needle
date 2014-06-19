@@ -16,9 +16,8 @@ import com.google.common.base.Supplier;
 public enum CreateConfigurationFromResource implements Supplier<ProcessEngineConfiguration> {
   INSTANCE;
 
-
   /**
-   *
+   * Creates a new ProcessEngineConfiguration from source. Returns null if config can not be created (file does not exist).
    */
   private static class ConfigurationSupplier implements  Supplier<ProcessEngineConfiguration> {
 

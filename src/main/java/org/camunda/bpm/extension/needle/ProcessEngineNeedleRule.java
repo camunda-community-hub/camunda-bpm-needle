@@ -1,4 +1,4 @@
-package org.camunda.bpm.engine.test.needle;
+package org.camunda.bpm.extension.needle;
 
 import static org.needle4j.junit.NeedleBuilders.needleMockitoTestRule;
 
@@ -21,6 +21,7 @@ import org.camunda.bpm.engine.test.ChainedTestRule;
 import org.camunda.bpm.engine.test.ProcessEngineTestRule;
 import org.camunda.bpm.engine.test.ProcessEngineTestWatcher;
 import org.camunda.bpm.engine.test.function.GetProcessEngineConfiguration;
+import org.camunda.bpm.engine.test.needle.CamundaInstancesSupplier;
 import org.junit.rules.RuleChain;
 import org.needle4j.injection.InjectionProvider;
 import org.needle4j.injection.InjectionProviderInstancesSupplier;

@@ -14,7 +14,6 @@ import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.impl.test.TestHelper;
 import org.camunda.bpm.engine.impl.util.ClockUtil;
-import org.camunda.bpm.extension.engine.test.ProcessEngineExternalResource;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 
