@@ -20,9 +20,12 @@ import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.test.ChainedTestRule;
 import org.camunda.bpm.engine.test.ProcessEngineTestRule;
 import org.camunda.bpm.engine.test.ProcessEngineTestWatcher;
+import org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions;
 import org.camunda.bpm.engine.test.function.GetProcessEngineConfiguration;
 import org.camunda.bpm.engine.test.needle.CamundaInstancesSupplier;
 import org.junit.rules.RuleChain;
+import org.junit.runner.Description;
+import org.junit.runners.model.Statement;
 import org.needle4j.injection.InjectionProvider;
 import org.needle4j.injection.InjectionProviderInstancesSupplier;
 import org.needle4j.injection.InjectionProviders;
@@ -31,15 +34,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Combines the {@link org.camunda.bpm.engine.test.ProcessEngineRule} and the  {@link org.needle4j.junit.testrule.NeedleTestRule}via {@link RuleChain}.
- * Camunda Services can be injected in test instances and @Deployment-annotated test methods are interpreted.
- *
+ * Combines the {@link org.camunda.bpm.engine.test.ProcessEngineRule} and the
+ * {@link org.needle4j.junit.testrule.NeedleTestRule}via {@link RuleChain}.
+ * Camunda Services can be injected in test instances and @Deployment-annotated
+ * test methods are interpreted.
+ * 
  * @author Jan Galinski, Holisticon AG (jan.galinski@holisticon.de)
  */
 public class ProcessEngineNeedleRule extends ChainedTestRule<NeedleTestRule, ProcessEngineTestWatcher> implements ProcessEngineTestRule {
 
   /**
-   * @param testInstance the test instance to inject to
+   * @param testInstance
+   *          the test instance to inject to
    * @return builder to create the rule
    */
   public static ProcessEngineNeedleRuleBuilder fluentNeedleRule(final Object testInstance) {
@@ -55,16 +61,23 @@ public class ProcessEngineNeedleRule extends ChainedTestRule<NeedleTestRule, Pro
 
   ProcessEngineNeedleRule(final Object testInstance, final ProcessEngine processEngine, final InjectionProviderInstancesSupplier additionalProvidersSupplier) {
     // @formatter:off
-    super(needleMockitoTestRule(testInstance)
-            .addSupplier(new CamundaInstancesSupplier(processEngine))
-            .addSupplier(additionalProvidersSupplier)
-            .build());
+    super(needleMockitoTestRule(testInstance).addSupplier(new CamundaInstancesSupplier(processEngine)).addSupplier(additionalProvidersSupplier).build());
     // @formatter:on
     this.innerRule = new ProcessEngineTestWatcher(processEngine);
   }
 
   ProcessEngineNeedleRule(final Object testInstance, final ProcessEngineConfiguration configuration, final Set<InjectionProvider<?>> injectionProviders) {
     this(testInstance, configuration.buildProcessEngine(), InjectionProviders.supplierForInjectionProviders(injectionProviders));
+  }
+
+  @Override
+  public Statement apply(Statement base, Description description) {
+    ProcessEngineAssertions.init(getProcessEngine());
+    try {
+      return super.apply(base, description);
+    } finally {
+        ProcessEngineAssertions.reset();
+    }
   }
 
   @Override

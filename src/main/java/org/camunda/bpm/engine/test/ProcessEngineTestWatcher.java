@@ -44,14 +44,14 @@ public class ProcessEngineTestWatcher extends ChainedTestRule<ProcessEngineExter
 
     this.innerRule = new TestWatcher() {
       @Override
-      protected void finished(Description description) {
-        TestHelper.annotationDeploymentTearDown(outerRule.getProcessEngine(), deploymentId, description.getTestClass(), description.getMethodName());
-        ClockUtil.reset();
+      protected void starting(Description description) {
+        deploymentId = TestHelper.annotationDeploymentSetUp(outerRule.getProcessEngine(), description.getTestClass(), description.getMethodName());
       }
 
       @Override
-      protected void starting(Description description) {
-        deploymentId = TestHelper.annotationDeploymentSetUp(outerRule.getProcessEngine(), description.getTestClass(), description.getMethodName());
+      protected void finished(Description description) {
+        TestHelper.annotationDeploymentTearDown(outerRule.getProcessEngine(), deploymentId, description.getTestClass(), description.getMethodName());
+        ClockUtil.reset();
       }
     };
   }
