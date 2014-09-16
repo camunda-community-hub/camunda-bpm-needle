@@ -70,20 +70,17 @@ And since you are still working with the in memory engine, you can easily use mo
   
 ```
 
-
-
 ## Get started
 
 Just include camunda-bpm-needle in the test scope of your project:
 
 ```xml
 <dependency>
-  <groupId>org.camunda.extension.test</groupId>
+  <groupId>org.camunda.extension</groupId>
   <artifactId>camunda-bpm-needle</artifactId>
   <scope>test</scope>
-  <version>0.7-SNAPSHOT</version>
+  <version>1.0-SNAPSHOT</version>
 </dependency>
-
 ```
 
 and start using NeedleRule or ProcessEngineNeedleRule in your tests. Have a look at the examples in src/test/java. 
@@ -94,15 +91,6 @@ and start using NeedleRule or ProcessEngineNeedleRule in your tests. Have a look
 * [Issue Tracker](https://github.com/camunda/camunda-bpm-needle/issues)
 * [Contributing](https://github.com/camunda/camunda-bpm-needle/blob/master/CONTRIBUTING.md) 
 
-TODO:
-* [Roadmap](link-to-issue-tracker-filter) _if in terms of tagged issues_
-* [Changelog](link-to-changelog) _lets users track progress on what has been happening_
-* [Download](link-to-downloadable-archive) _if downloadable_
-
-
-## Roadmap
-
-TODO
 
 ## Maintainer
 
