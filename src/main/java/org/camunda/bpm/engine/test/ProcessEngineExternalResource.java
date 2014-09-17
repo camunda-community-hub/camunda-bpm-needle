@@ -15,13 +15,18 @@ import org.camunda.bpm.engine.TaskService;
 import org.junit.rules.ExternalResource;
 
 /**
- * JUnit {@link org.junit.rules.ExternalResource} that provides process engine services.
+ * JUnit {@link org.junit.rules.ExternalResource} that provides process engine
+ * services.
  * <p/>
  * Can be initialized in three ways:
  * <ol>
- *   <li><b>Lazy</b> with a ProcessEngineConfiguration, the engine is created when the test is started. Before the test is started, access to any of the services results in an IllegalStateException. </li>
- *   <li><b>Eager</b> with a ProcessEngineConfiguration, the engine is initialized immediately</li>
- *   <li><b>Delegate</b> processEngine is initialized externally and just decorated by the resource. Useful when chaining rules.</li>
+ * <li><b>Lazy</b> with a ProcessEngineConfiguration, the engine is created when
+ * the test is started. Before the test is started, access to any of the
+ * services results in an IllegalStateException.</li>
+ * <li><b>Eager</b> with a ProcessEngineConfiguration, the engine is initialized
+ * immediately</li>
+ * <li><b>Delegate</b> processEngine is initialized externally and just
+ * decorated by the resource. Useful when chaining rules.</li>
  * </ol>
  */
 public class ProcessEngineExternalResource extends ExternalResource implements ProcessEngineServices {
@@ -42,7 +47,8 @@ public class ProcessEngineExternalResource extends ExternalResource implements P
 
   /**
    *
-   * @param processEngine the internally wrapped process engine
+   * @param processEngine
+   *          the internally wrapped process engine
    */
   public ProcessEngineExternalResource(final ProcessEngine processEngine) {
     this(new ProcessEngineDelegate(processEngine));

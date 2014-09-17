@@ -17,7 +17,6 @@ public class ProcessEngineTestWatcherTest {
   @Rule
   public final ProcessEngineTestWatcher processEngineTestWatcher = new ProcessEngineTestWatcher(CreateConfigurationFromResource.INSTANCE.buildProcessEngine());
 
-
   @Test
   @Deployment(resources = "test-process.bpmn")
   public void should_deploy_and_start_process() {

@@ -14,8 +14,10 @@ public interface TestProcessStarter {
   /**
    * Starts the process "test-process" and sets the variable "processStartedBy".
    *
-   * @param  startedByUser the user id of the user who started the process
-   *                       @param businessKey teh process business key
+   * @param startedByUser
+   *          the user id of the user who started the process
+   * @param businessKey
+   *          teh process business key
    * @return the started instance
    */
   ProcessInstance startProcessWithUser(String startedByUser, String businessKey);

@@ -12,7 +12,6 @@ public class ChainedTestRuleTest {
 
   private String result = "";
 
-
   public final TestRule outerRule = new TestRule() {
     @Override
     public Statement apply(Statement base, Description description) {
@@ -37,7 +36,6 @@ public class ChainedTestRuleTest {
       };
     }
   });
-
 
   @Test
   public void should_execute_outer_and_inner_rule() {

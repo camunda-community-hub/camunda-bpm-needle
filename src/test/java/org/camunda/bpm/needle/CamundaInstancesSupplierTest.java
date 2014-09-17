@@ -28,7 +28,8 @@ public class CamundaInstancesSupplierTest {
   public final ExpectedException thrown = ExpectedException.none();
 
   @Rule
-  public final NeedleRule needle = new NeedleRule(providersForInstancesSuppliers(new CamundaInstancesSupplier(CreateConfigurationFromResource.INSTANCE.buildProcessEngine())));
+  public final NeedleRule needle = new NeedleRule(providersForInstancesSuppliers(new CamundaInstancesSupplier(
+      CreateConfigurationFromResource.INSTANCE.buildProcessEngine())));
 
   @Inject
   private ManagementService managementService;

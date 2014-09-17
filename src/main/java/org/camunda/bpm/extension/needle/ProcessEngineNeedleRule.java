@@ -76,7 +76,7 @@ public class ProcessEngineNeedleRule extends ChainedTestRule<NeedleTestRule, Pro
     try {
       return super.apply(base, description);
     } finally {
-        ProcessEngineAssertions.reset();
+      ProcessEngineAssertions.reset();
     }
   }
 

@@ -1,6 +1,5 @@
 package org.camunda.bpm.needle.example;
 
-
 import static org.camunda.bpm.needle.example.TestProcessStarterBean.variablesStartedByUser;
 import static org.mockito.Mockito.verify;
 import static org.needle4j.junit.NeedleBuilders.needleRule;
@@ -33,8 +32,7 @@ public class TestProcessStarterTest {
 
     testProcessStarter.startProcessWithUser(USER_ID, businessKey);
 
-    verify(runtimeService).startProcessInstanceByKey(TestProcessStarterBean.PROCESS_KEY,
-            businessKey, variablesStartedByUser(USER_ID));
+    verify(runtimeService).startProcessInstanceByKey(TestProcessStarterBean.PROCESS_KEY, businessKey, variablesStartedByUser(USER_ID));
   }
 
 }

@@ -1,6 +1,5 @@
 package org.camunda.bpm.engine;
 
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
@@ -33,13 +32,13 @@ public class ProcessEngineDelegateTest {
   @Test
   public void should_fail_on_creation_with_null_processEngine() {
     thrown.expect(IllegalArgumentException.class);
-    new ProcessEngineDelegate((ProcessEngine)null);
+    new ProcessEngineDelegate((ProcessEngine) null);
   }
 
   @Test
   public void should_fail_on_creation_with_null_processEngineConfiguration() {
     thrown.expect(IllegalArgumentException.class);
-    new ProcessEngineDelegate((ProcessEngineConfiguration)null);
+    new ProcessEngineDelegate((ProcessEngineConfiguration) null);
   }
 
   @Test

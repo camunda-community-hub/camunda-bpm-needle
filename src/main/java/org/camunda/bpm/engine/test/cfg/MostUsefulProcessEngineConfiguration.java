@@ -13,7 +13,8 @@ import org.camunda.bpm.engine.test.mock.MockExpressionManager;
 import com.google.common.base.Supplier;
 
 /**
- * Configuration that makes the standard camunda.cfg.xml obsolete by setting the history, schema and job-executor settings.
+ * Configuration that makes the standard camunda.cfg.xml obsolete by setting the
+ * history, schema and job-executor settings.
  */
 public class MostUsefulProcessEngineConfiguration extends StandaloneInMemProcessEngineConfiguration {
 

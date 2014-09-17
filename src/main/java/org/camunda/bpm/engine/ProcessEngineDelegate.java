@@ -48,7 +48,7 @@ public class ProcessEngineDelegate implements ProcessEngineServices {
   public ProcessEngine initProcessEngine() {
     if (isInitialized()) {
       logger.info("process engine is already initialized, skipping creation.");
-        return null;
+      return null;
     }
 
     return processEngine = processEngineConfiguration.buildProcessEngine();
@@ -109,14 +109,16 @@ public class ProcessEngineDelegate implements ProcessEngineServices {
   }
 
   /**
-   * @return <code>true</code> if the inner process engine is not <code>null</code>, else <code>false</code>.
+   * @return <code>true</code> if the inner process engine is not
+   *         <code>null</code>, else <code>false</code>.
    */
   boolean isInitialized() {
     return processEngine != null;
   }
 
   /**
-   * @throws java.lang.IllegalStateException when inner processEngine was not initialized.
+   * @throws java.lang.IllegalStateException
+   *           when inner processEngine was not initialized.
    */
   private void assertProcessEngineInitialized() {
     checkState(isInitialized(), "processEngine has not been initialized.");

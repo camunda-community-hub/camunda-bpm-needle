@@ -8,8 +8,9 @@ import org.camunda.bpm.engine.test.cfg.MostUsefulProcessEngineConfiguration;
 import com.google.common.base.Supplier;
 
 /**
- * Creates a new ProcessEngineConfiguration based on camunda.cfg.xml. Falls back to activiti.cfg.xml for compatibility reasons.
- * If no cfg.xml files can be found, a MostUsefulProcessEngineConfiguration is created.
+ * Creates a new ProcessEngineConfiguration based on camunda.cfg.xml. Falls back
+ * to activiti.cfg.xml for compatibility reasons. If no cfg.xml files can be
+ * found, a MostUsefulProcessEngineConfiguration is created.
  *
  * @author Jan Galinski, Holisticon AG
  */
@@ -17,9 +18,10 @@ public enum CreateConfigurationFromResource implements Supplier<ProcessEngineCon
   INSTANCE;
 
   /**
-   * Creates a new ProcessEngineConfiguration from source. Returns null if config can not be created (file does not exist).
+   * Creates a new ProcessEngineConfiguration from source. Returns null if
+   * config can not be created (file does not exist).
    */
-  private static class ConfigurationSupplier implements  Supplier<ProcessEngineConfiguration> {
+  private static class ConfigurationSupplier implements Supplier<ProcessEngineConfiguration> {
 
     private final String cfgXmlFilename;
 
@@ -36,7 +38,6 @@ public enum CreateConfigurationFromResource implements Supplier<ProcessEngineCon
       }
     }
   }
-
 
   private final Supplier<ProcessEngineConfiguration> camundaCfgXmlSupplier = new ConfigurationSupplier("camunda.cfg.xml");
 

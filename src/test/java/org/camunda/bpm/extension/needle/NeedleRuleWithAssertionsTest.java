@@ -1,21 +1,19 @@
 package org.camunda.bpm.extension.needle;
 
-import org.camunda.bpm.engine.RuntimeService;
-import org.camunda.bpm.engine.TaskService;
-import org.camunda.bpm.engine.runtime.ProcessInstance;
-import org.camunda.bpm.engine.test.Deployment;
-import org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions;
-import org.camunda.bpm.engine.test.assertions.ProcessEngineTests;
-import org.junit.Rule;
-import org.junit.Test;
-import org.slf4j.bridge.SLF4JBridgeHandler;
-
-import javax.inject.Inject;
-
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.assertThat;
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.claim;
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.task;
 import static org.camunda.bpm.extension.needle.ProcessEngineNeedleRule.fluentNeedleRule;
+
+import javax.inject.Inject;
+
+import org.camunda.bpm.engine.RuntimeService;
+import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.runtime.ProcessInstance;
+import org.camunda.bpm.engine.test.Deployment;
+import org.junit.Rule;
+import org.junit.Test;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 
 public class NeedleRuleWithAssertionsTest {
 
