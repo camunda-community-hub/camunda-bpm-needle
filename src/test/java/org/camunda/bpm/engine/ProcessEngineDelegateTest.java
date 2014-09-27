@@ -5,6 +5,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration;
+import org.camunda.bpm.engine.test.cfg.MostUsefulProcessEngineConfiguration;
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class ProcessEngineDelegateTest {
   private final Logger logger = LoggerFactory.getLogger(getClass());
 
   public ProcessEngineDelegate delegate;
-  private final StandaloneInMemProcessEngineConfiguration processEngineConfiguration = new StandaloneInMemProcessEngineConfiguration();
+  private final ProcessEngineConfiguration processEngineConfiguration = MostUsefulProcessEngineConfiguration.mostUsefulProcessEngineConfiguration();
 
   @After
   public void cleanUpJustInCase() {
