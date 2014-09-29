@@ -79,11 +79,14 @@ Just include camunda-bpm-needle in the test scope of your project:
   <groupId>org.camunda.extension</groupId>
   <artifactId>camunda-bpm-needle</artifactId>
   <scope>test</scope>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
 </dependency>
 ```
 
-and start using NeedleRule or ProcessEngineNeedleRule in your tests. Have a look at the examples in src/test/java. 
+* [1.0 on camunda nexus](https://app.camunda.com/nexus/content/repositories/camunda-bpm-community-extensions/org/camunda/bpm/extension/camunda-bpm-needle/1.0/)
+* [1.0 on maven central](http://repo1.maven.org/maven2/org/camunda/bpm/extension/camunda-bpm-needle/1.0/)
+
+and start using NeedleRule or ProcessEngineNeedleRule in your tests. Have a look at the examples in (src/test/java). 
 
 
 ## Resources
@@ -94,7 +97,8 @@ and start using NeedleRule or ProcessEngineNeedleRule in your tests. Have a look
 
 ## Maintainer
 
-camunda-bpm-needle is maintained by [Jan Galinski](https://github.com/jangalinski) and [Simon Zambrovski](https://github.com/zambrovski), both [Holisticon AG](http://www.holisticon.de).
+* [Jan Galinski](https://github.com/jangalinski), [Holisticon AG](http://www.holisticon.de)
+* [Simon Zambrovski](https://github.com/zambrovski), [Holisticon AG](http://www.holisticon.de)
 
 
 ## License
