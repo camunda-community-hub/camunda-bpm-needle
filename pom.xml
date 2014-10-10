@@ -151,23 +151,6 @@
         </license>
     </licenses>
 
-    <repositories>
-        <repository>
-            <id>camunda-bpm-community-extensions</id>
-            <name>camunda BPM Snapshot Maven Repository</name>
-            <url>https://app.camunda.com/nexus/content/repositories/camunda-bpm-community-extensions</url>
-            <releases><enabled>true</enabled></releases>
-            <snapshots><enabled>false</enabled></snapshots>
-        </repository>
-        <repository>
-            <id>camunda-bpm-community-extensions-snapshots</id>
-            <name>camunda BPM Snapshot Maven Repository</name>
-            <url>https://app.camunda.com/nexus/content/repositories/camunda-bpm-community-extensions-snapshots</url>
-            <releases><enabled>false</enabled></releases>
-            <snapshots><enabled>true</enabled></snapshots>
-        </repository>
-    </repositories>
-
     <scm>
         <connection>scm:git:git@github.com:camunda/camunda-bpm-needle.git</connection>
         <url>scm:git:git@github.com:camunda/camunda-bpm-needle.git</url>
