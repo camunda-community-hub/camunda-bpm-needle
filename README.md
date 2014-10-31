@@ -1,5 +1,7 @@
 # camunda-bpm-needle
 
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.camunda.bpm.extension/camunda-bpm-needle/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.camunda.bpm.extension/camunda-bpm-needle)
+
 [Needle4j](http://www.needle4j.org) (f.k.a. needle) is a framework to ease DI testing. It allows writing very effective, boilerplate free Junit or TestNG test by providing mocks for every Injection point.
 
 ![needle4j logo](https://github-camo.global.ssl.fastly.net/7141f70aa5224cbd50220ef265decf595091955c/687474703a2f2f6e6565646c652e73707265652e64652f7075626c69632f696d616765732f6e6565646c652d636f66666565637570732d33383070782e6a7067)
