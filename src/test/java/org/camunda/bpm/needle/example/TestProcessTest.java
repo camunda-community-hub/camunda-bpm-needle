@@ -4,12 +4,14 @@ import java.util.UUID;
 
 import javax.inject.Inject;
 
+import org.assertj.core.api.Assertions;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
 import org.camunda.bpm.engine.delegate.JavaDelegate;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.task.Task;
 import org.camunda.bpm.engine.test.Deployment;
+import org.camunda.bpm.engine.test.assertions.ProcessEngineTests;
 import org.camunda.bpm.engine.test.mock.Mocks;
 import org.camunda.bpm.extension.needle.ProcessEngineNeedleRule;
 import org.junit.Assert;
@@ -38,17 +40,22 @@ public class TestProcessTest {
   @Test
   @Deployment(resources = "test-process.bpmn")
   public void should_deploy_and_start_process_via_starter_bean() {
+    Assert.assertNotNull(processEngineNeedleRule.getDeploymentId());
+
     Mocks.register("serviceTask", serviceTaskMock);
 
     final ProcessInstance processInstance = testProcessStarter.startProcessWithUser("foo", UUID.randomUUID().toString());
 
-    Assert.assertNotNull(processEngineNeedleRule.getDeploymentId());
+    ProcessEngineTests.assertThat(processInstance).isActive();
 
-    Task task = taskService.createTaskQuery().active().singleResult();
-    Assert.assertNotNull(task);
+    ProcessEngineTests.assertThat(processInstance).task().isNotAssigned();
+
+    final Task task = ProcessEngineTests.task();
+    Assertions.assertThat(task).isNotNull();
+    ProcessEngineTests.assertThat(task).hasDefinitionKey("task_wait");
 
     taskService.complete(task.getId());
 
-    Assert.assertNull(runtimeService.createProcessInstanceQuery().active().singleResult());
+    ProcessEngineTests.assertThat(processInstance).isEnded();
   }
 }
