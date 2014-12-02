@@ -31,7 +31,7 @@ This is how a test written with needle looks like. Check out the source code for
   }
 ```
 
-Now, this is the bean test. Now you want to write the process test. Since you have special requirements how the process is started and you already tested the behavior, instead of rewriting the process start manually, why not reuse the process tarter.
+Now, this is the bean test. Now you want to write the process test. Since you have special requirements how the process is started and you already tested the behavior, instead of rewriting the process start manually, why not reuse the process starter.
 
 This is where camunda-bpm-needle gets useful. Instead of using mocks (like in the previous sample), the ProcessEngineNeedleRule can inject the in memory process engine services into your test case and use your beans.
 And since you are still working with the in memory engine, you can easily use mocks for the parts of the process you do not want (or need) to test here.
