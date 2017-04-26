@@ -1,13 +1,10 @@
 package org.camunda.bpm.extension.needle;
 
-import static org.needle4j.junit.NeedleBuilders.needleMockitoTestRule;
-
-import java.util.Date;
-import java.util.Set;
-
-import javax.sql.DataSource;
-
 import org.camunda.bpm.engine.AuthorizationService;
+import org.camunda.bpm.engine.CaseService;
+import org.camunda.bpm.engine.DecisionService;
+import org.camunda.bpm.engine.ExternalTaskService;
+import org.camunda.bpm.engine.FilterService;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.IdentityService;
@@ -30,8 +27,12 @@ import org.needle4j.injection.InjectionProvider;
 import org.needle4j.injection.InjectionProviderInstancesSupplier;
 import org.needle4j.injection.InjectionProviders;
 import org.needle4j.junit.testrule.NeedleTestRule;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+import javax.sql.DataSource;
+import java.util.Date;
+import java.util.Set;
+
+import static org.needle4j.junit.NeedleBuilders.needleMockitoTestRule;
 
 /**
  * Combines the {@link org.camunda.bpm.engine.test.ProcessEngineRule} and the
@@ -50,11 +51,6 @@ public class ProcessEngineNeedleRule extends ChainedTestRule<NeedleTestRule, Pro
   public static ProcessEngineNeedleRuleBuilder fluentNeedleRule(final Object testInstance) {
     return new ProcessEngineNeedleRuleBuilder(testInstance);
   }
-
-  /**
-   * The Logger for this class.
-   */
-  private final Logger logger = LoggerFactory.getLogger(ProcessEngineNeedleRule.class);
 
   private final ProcessEngineTestWatcher innerRule;
 
@@ -145,6 +141,26 @@ public class ProcessEngineNeedleRule extends ChainedTestRule<NeedleTestRule, Pro
   @Override
   public AuthorizationService getAuthorizationService() {
     return innerRule.getAuthorizationService();
+  }
+
+  @Override
+  public CaseService getCaseService() {
+    return innerRule.getCaseService();
+  }
+
+  @Override
+  public FilterService getFilterService() {
+    return innerRule.getFilterService();
+  }
+
+  @Override
+  public ExternalTaskService getExternalTaskService() {
+    return innerRule.getExternalTaskService();
+  }
+
+  @Override
+  public DecisionService getDecisionService() {
+    return innerRule.getDecisionService();
   }
 
 }

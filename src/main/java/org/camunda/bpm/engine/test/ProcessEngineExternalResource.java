@@ -1,6 +1,10 @@
 package org.camunda.bpm.engine.test;
 
 import org.camunda.bpm.engine.AuthorizationService;
+import org.camunda.bpm.engine.CaseService;
+import org.camunda.bpm.engine.DecisionService;
+import org.camunda.bpm.engine.ExternalTaskService;
+import org.camunda.bpm.engine.FilterService;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.IdentityService;
@@ -109,6 +113,26 @@ public class ProcessEngineExternalResource extends ExternalResource implements P
   @Override
   public AuthorizationService getAuthorizationService() {
     return delegate.getAuthorizationService();
+  }
+
+  @Override
+  public CaseService getCaseService() {
+    return delegate.getCaseService();
+  }
+
+  @Override
+  public FilterService getFilterService() {
+    return delegate.getFilterService();
+  }
+
+  @Override
+  public ExternalTaskService getExternalTaskService() {
+    return delegate.getExternalTaskService();
+  }
+
+  @Override
+  public DecisionService getDecisionService() {
+    return delegate.getDecisionService();
   }
 
   protected ProcessEngineDelegate getProcessEngineDelegate() {

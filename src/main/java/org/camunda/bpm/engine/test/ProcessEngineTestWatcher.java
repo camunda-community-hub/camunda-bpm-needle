@@ -1,8 +1,10 @@
 package org.camunda.bpm.engine.test;
 
-import java.util.Date;
-
 import org.camunda.bpm.engine.AuthorizationService;
+import org.camunda.bpm.engine.CaseService;
+import org.camunda.bpm.engine.DecisionService;
+import org.camunda.bpm.engine.ExternalTaskService;
+import org.camunda.bpm.engine.FilterService;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.IdentityService;
@@ -16,6 +18,8 @@ import org.camunda.bpm.engine.impl.test.TestHelper;
 import org.camunda.bpm.engine.impl.util.ClockUtil;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
+
+import java.util.Date;
 
 /**
  * Rewrite of the ProcessEngineRule since TestWatchman is deprecated for
@@ -123,6 +127,26 @@ public class ProcessEngineTestWatcher extends ChainedTestRule<ProcessEngineExter
   @Override
   public AuthorizationService getAuthorizationService() {
     return outerRule.getAuthorizationService();
+  }
+
+  @Override
+  public CaseService getCaseService() {
+    return outerRule.getCaseService();
+  }
+
+  @Override
+  public FilterService getFilterService() {
+    return outerRule.getFilterService();
+  }
+
+  @Override
+  public ExternalTaskService getExternalTaskService() {
+    return outerRule.getExternalTaskService();
+  }
+
+  @Override
+  public DecisionService getDecisionService() {
+    return outerRule.getDecisionService();
   }
 
 }

@@ -1,11 +1,11 @@
 package org.camunda.bpm.engine.test.needle;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static org.needle4j.injection.InjectionProviders.providerForInstance;
-
-import java.util.Set;
-
+import com.google.common.collect.Sets;
 import org.camunda.bpm.engine.AuthorizationService;
+import org.camunda.bpm.engine.CaseService;
+import org.camunda.bpm.engine.DecisionService;
+import org.camunda.bpm.engine.ExternalTaskService;
+import org.camunda.bpm.engine.FilterService;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.HistoryService;
 import org.camunda.bpm.engine.IdentityService;
@@ -22,7 +22,10 @@ import org.camunda.bpm.engine.test.function.GetProcessEngineConfiguration;
 import org.needle4j.injection.InjectionProvider;
 import org.needle4j.injection.InjectionProviderInstancesSupplier;
 
-import com.google.common.collect.Sets;
+import java.util.Set;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static org.needle4j.injection.InjectionProviders.providerForInstance;
 
 /**
  * Supplier for camunda services. Holds processEngine internally and exposes all
@@ -41,16 +44,21 @@ public class CamundaInstancesSupplier implements InjectionProviderInstancesSuppl
     this.processEngine = processEngine;
 
     providers.add(providerForInstance(processEngine));
-    providers.add(providerForInstance(getRepositoryService()));
-    providers.add(providerForInstance(getRuntimeService()));
+    providers.add(providerForInstance(getCommandExecutor()));
+    providers.add(providerForInstance(getProcessEngineConfiguration()));
+
+    providers.add(providerForInstance(getAuthorizationService()));
+    providers.add(providerForInstance(getCaseService()));
+    providers.add(providerForInstance(getDecisionService()));
+    providers.add(providerForInstance(getExternalTaskService()));
+    providers.add(providerForInstance(getFilterService()));
     providers.add(providerForInstance(getFormService()));
-    providers.add(providerForInstance(getTaskService()));
     providers.add(providerForInstance(getHistoryService()));
     providers.add(providerForInstance(getIdentityService()));
     providers.add(providerForInstance(getManagementService()));
-    providers.add(providerForInstance(getAuthorizationService()));
-    providers.add(providerForInstance(getCommandExecutor()));
-    providers.add(providerForInstance(getProcessEngineConfiguration()));
+    providers.add(providerForInstance(getRepositoryService()));
+    providers.add(providerForInstance(getRuntimeService()));
+    providers.add(providerForInstance(getTaskService()));
   }
 
   @Override
@@ -96,6 +104,26 @@ public class CamundaInstancesSupplier implements InjectionProviderInstancesSuppl
   @Override
   public AuthorizationService getAuthorizationService() {
     return processEngine.getAuthorizationService();
+  }
+
+  @Override
+  public CaseService getCaseService() {
+    return processEngine.getCaseService();
+  }
+
+  @Override
+  public FilterService getFilterService() {
+    return processEngine.getFilterService();
+  }
+
+  @Override
+  public ExternalTaskService getExternalTaskService() {
+    return processEngine.getExternalTaskService();
+  }
+
+  @Override
+  public DecisionService getDecisionService() {
+    return processEngine.getDecisionService();
   }
 
   /**

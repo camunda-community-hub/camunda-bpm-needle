@@ -108,6 +108,30 @@ public class ProcessEngineDelegate implements ProcessEngineServices {
     return processEngine.getAuthorizationService();
   }
 
+  @Override
+  public CaseService getCaseService() {
+    assertProcessEngineInitialized();
+    return processEngine.getCaseService();
+  }
+
+  @Override
+  public FilterService getFilterService() {
+    assertProcessEngineInitialized();
+    return processEngine.getFilterService();
+  }
+
+  @Override
+  public ExternalTaskService getExternalTaskService() {
+    assertProcessEngineInitialized();
+    return processEngine.getExternalTaskService();
+  }
+
+  @Override
+  public DecisionService getDecisionService() {
+    assertProcessEngineInitialized();
+    return processEngine.getDecisionService();
+  }
+
   /**
    * @return <code>true</code> if the inner process engine is not
    * <code>null</code>, else <code>false</code>.

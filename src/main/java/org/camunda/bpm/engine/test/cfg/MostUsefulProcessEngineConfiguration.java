@@ -36,6 +36,7 @@ public class MostUsefulProcessEngineConfiguration extends StandaloneInMemProcess
     this.expressionManager = new MockExpressionManager();
     this.setCustomPostBPMNParseListeners(new ArrayList<BpmnParseListener>());
     this.setCustomJobHandlers(new ArrayList<JobHandler>());
+    this.setDbMetricsReporterActivate(false);
   }
 
   public void addCustomJobHandler(final JobHandler jobHandler) {
