@@ -14,7 +14,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
 
 /**
- *
  * @author Jan Galinski, Holisticon AG
  */
 @Named

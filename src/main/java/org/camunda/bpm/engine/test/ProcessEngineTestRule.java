@@ -15,8 +15,7 @@ public interface ProcessEngineTestRule extends TestRule, ProcessEngineServices {
   /**
    * Sets current time of in memory engine. Use to test timers etc.
    *
-   * @param currentTime
-   *          time to set
+   * @param currentTime time to set
    */
   void setCurrentTime(Date currentTime);
 

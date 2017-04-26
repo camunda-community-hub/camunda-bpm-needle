@@ -27,7 +27,7 @@ import com.google.common.collect.Sets;
 /**
  * Supplier for camunda services. Holds processEngine internally and exposes all
  * services via {@link InjectionProvider}.
- * 
+ *
  * @author Jan Galinski, Holisticon AG
  */
 public class CamundaInstancesSupplier implements InjectionProviderInstancesSupplier, ProcessEngineServices {

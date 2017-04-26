@@ -38,14 +38,13 @@ import org.slf4j.LoggerFactory;
  * {@link org.needle4j.junit.testrule.NeedleTestRule}via {@link RuleChain}.
  * Camunda Services can be injected in test instances and @Deployment-annotated
  * test methods are interpreted.
- * 
+ *
  * @author Jan Galinski, Holisticon AG (jan.galinski@holisticon.de)
  */
 public class ProcessEngineNeedleRule extends ChainedTestRule<NeedleTestRule, ProcessEngineTestWatcher> implements ProcessEngineTestRule {
 
   /**
-   * @param testInstance
-   *          the test instance to inject to
+   * @param testInstance the test instance to inject to
    * @return builder to create the rule
    */
   public static ProcessEngineNeedleRuleBuilder fluentNeedleRule(final Object testInstance) {

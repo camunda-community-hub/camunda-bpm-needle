@@ -46,9 +46,7 @@ public class ProcessEngineExternalResource extends ExternalResource implements P
   }
 
   /**
-   *
-   * @param processEngine
-   *          the internally wrapped process engine
+   * @param processEngine the internally wrapped process engine
    */
   public ProcessEngineExternalResource(final ProcessEngine processEngine) {
     this(new ProcessEngineDelegate(processEngine));

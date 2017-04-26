@@ -29,7 +29,7 @@ public class CamundaInstancesSupplierTest {
 
   @Rule
   public final NeedleRule needle = new NeedleRule(providersForInstancesSuppliers(new CamundaInstancesSupplier(
-      CreateConfigurationFromResource.INSTANCE.buildProcessEngine())));
+    CreateConfigurationFromResource.INSTANCE.buildProcessEngine())));
 
   @Inject
   private ManagementService managementService;

@@ -7,7 +7,7 @@ import org.junit.runners.model.Statement;
 
 /**
  * Helper for chaining TestRules.
- * 
+ *
  * @author Jan Galinski, Holisticon AG
  */
 public abstract class ChainedTestRule<O extends TestRule, I extends TestRule> implements TestRule {

@@ -110,15 +110,14 @@ public class ProcessEngineDelegate implements ProcessEngineServices {
 
   /**
    * @return <code>true</code> if the inner process engine is not
-   *         <code>null</code>, else <code>false</code>.
+   * <code>null</code>, else <code>false</code>.
    */
   boolean isInitialized() {
     return processEngine != null;
   }
 
   /**
-   * @throws java.lang.IllegalStateException
-   *           when inner processEngine was not initialized.
+   * @throws java.lang.IllegalStateException when inner processEngine was not initialized.
    */
   private void assertProcessEngineInitialized() {
     checkState(isInitialized(), "processEngine has not been initialized.");
